@@ -10,6 +10,9 @@ const heroComponents = {
   watermark: dynamic(() => import("@/components/heroes/WatermarkHero")),
   commerce: dynamic(() => import("@/components/heroes/CommerceHero")),
   article: dynamic(() => import("@/components/heroes/ArticleHero")),
+  portfolio: dynamic(() => import("@/components/heroes/PortfolioHero")),
+  "split-showcase": dynamic(() => import("@/components/heroes/SplitShowcaseHero")),
+  collage: dynamic(() => import("@/components/heroes/CollageHero")),
   "image-trail": dynamic(() => import("@/components/heroes/ImageTrailHero")),
 } as const;
 
