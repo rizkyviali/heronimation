@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import type { HeroVariant } from "@/lib/registry";
 
 const heroComponents = {
+  "hacker-button": dynamic(() => import("@/components/heroes/HackerButton")),
   centered: dynamic(() => import("@/components/heroes/CenteredHero")),
   split: dynamic(() => import("@/components/heroes/SplitHero")),
   ticker: dynamic(() => import("@/components/heroes/TickerHero")),

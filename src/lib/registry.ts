@@ -18,6 +18,21 @@ export interface HeroVariant {
 
 export const heroVariants: HeroVariant[] = [
   {
+    slug: "hacker-button",
+    name: "Hacker Button",
+    description: "Plain text button that scrambles each letter through random glyphs on hover, resolving left to right. No framer-motion — pure requestAnimationFrame.",
+    tags: ["button", "text-effect", "hover", "scramble", "interactive"],
+    componentFile: "HackerButton.tsx",
+    props: [
+      { name: "children", type: "string", required: true, description: "Button label text" },
+      { name: "onClick", type: "() => void", required: false, description: "Click handler" },
+      { name: "href", type: "string", required: false, description: "Renders as an <a> tag when provided" },
+      { name: "className", type: "string", required: false, description: "Tailwind classes for font, color, size, etc." },
+      { name: "scrambleDuration", type: "number", required: false, default: "600", description: "Total ms for all letters to finish resolving (left to right)" },
+    ],
+    defaultProps: {},
+  },
+  {
     slug: "centered",
     name: "Centered Hero",
     description: "Clean, centered layout with title, subtitle, description, and CTA buttons. Works for any page type.",
