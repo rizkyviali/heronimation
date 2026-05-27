@@ -14,10 +14,12 @@ export interface HeroVariant {
   componentFile: string;
   props: PropDef[];
   defaultProps: Record<string, unknown>;
+  type?: "hero" | "component";
 }
 
 export const heroVariants: HeroVariant[] = [
   {
+    type: "component",
     slug: "hacker-button",
     name: "Hacker Button",
     description: "Plain text button that scrambles each letter through random glyphs on hover, resolving left to right. No framer-motion — pure requestAnimationFrame.",
@@ -29,6 +31,7 @@ export const heroVariants: HeroVariant[] = [
       { name: "href", type: "string", required: false, description: "Renders as an <a> tag when provided" },
       { name: "className", type: "string", required: false, description: "Tailwind classes for font, color, size, etc." },
       { name: "scrambleDuration", type: "number", required: false, default: "600", description: "Total ms for all letters to finish resolving (left to right)" },
+      { name: "variant", type: '"symbols" | "letters"', required: false, default: '"symbols"', description: 'Charset used during scramble — symbols (!<>_=*^#@&|;~) or letters (A–Z, 0–9)' },
     ],
     defaultProps: {},
   },
