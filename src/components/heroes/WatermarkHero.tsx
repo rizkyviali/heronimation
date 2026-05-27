@@ -24,7 +24,11 @@ const container = {
 
 const item = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" as const },
+  },
 };
 
 export default function WatermarkHero({
@@ -61,12 +65,18 @@ export default function WatermarkHero({
         animate="show"
       >
         {subtitle && (
-          <motion.p variants={item} className="mb-4 text-sm font-semibold uppercase tracking-widest text-lime-400">
+          <motion.p
+            variants={item}
+            className="mb-4 text-sm font-semibold uppercase tracking-widest text-lime-400"
+          >
             {subtitle}
           </motion.p>
         )}
 
-        <motion.h1 variants={item} className="mb-6 text-4xl font-bold leading-tight sm:text-5xl lg:text-7xl">
+        <motion.h1
+          variants={item}
+          className="mb-6 text-4xl font-bold leading-tight sm:text-5xl lg:text-7xl"
+        >
           {title}
         </motion.h1>
 
@@ -81,7 +91,10 @@ export default function WatermarkHero({
 
         {primaryButton && (
           <motion.div variants={item}>
-            <a href={primaryButton.href} className="inline-block rounded-full bg-lime-400 px-8 py-3 text-sm font-bold text-zinc-900 transition-opacity hover:opacity-80">
+            <a
+              href={primaryButton.href}
+              className="inline-block rounded-full bg-lime-400 px-8 py-3 text-sm font-bold text-zinc-900 transition-opacity hover:opacity-80"
+            >
               {primaryButton.text}
             </a>
           </motion.div>
@@ -99,7 +112,11 @@ export default function WatermarkHero({
             {stats.map((s) => (
               <div key={s.label} className="text-center">
                 <p className="text-2xl font-bold">{s.value}</p>
-                <p className={`text-sm ${isDark ? "text-zinc-500" : "text-zinc-500"}`}>{s.label}</p>
+                <p
+                  className={`text-sm ${isDark ? "text-zinc-500" : "text-zinc-500"}`}
+                >
+                  {s.label}
+                </p>
               </div>
             ))}
           </div>

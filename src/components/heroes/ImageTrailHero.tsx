@@ -42,7 +42,8 @@ function useTrailEffect(images: string[]) {
       const y = e.clientY - rect.top;
       const threshold = Math.max(window.innerWidth / 26, 36);
 
-      if (Math.hypot(x - lastPos.current.x, y - lastPos.current.y) < threshold) return;
+      if (Math.hypot(x - lastPos.current.x, y - lastPos.current.y) < threshold)
+        return;
       lastPos.current = { x, y };
 
       const id = ++counter.current;

@@ -25,7 +25,11 @@ const container = {
 
 const item = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" as const },
+  },
 };
 
 export default function CenteredHero({
@@ -38,7 +42,9 @@ export default function CenteredHero({
   theme = "stone",
 }: CenteredHeroProps) {
   return (
-    <section className={`${themes[theme]} flex min-h-screen items-center justify-center py-20`}>
+    <section
+      className={`${themes[theme]} flex min-h-screen items-center justify-center py-20`}
+    >
       <motion.div
         className="mx-auto max-w-4xl px-4 text-center"
         variants={container}
@@ -62,7 +68,10 @@ export default function CenteredHero({
         </motion.h1>
 
         {subtitle && (
-          <motion.p variants={item} className="mb-4 text-xl opacity-70 sm:text-2xl">
+          <motion.p
+            variants={item}
+            className="mb-4 text-xl opacity-70 sm:text-2xl"
+          >
             {subtitle}
           </motion.p>
         )}

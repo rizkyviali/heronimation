@@ -10,11 +10,21 @@ export default function PropsTable({ props }: PropsTableProps) {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-zinc-800 bg-zinc-900">
-            <th className="px-4 py-3 text-left font-semibold text-zinc-300">Prop</th>
-            <th className="px-4 py-3 text-left font-semibold text-zinc-300">Type</th>
-            <th className="px-4 py-3 text-left font-semibold text-zinc-300">Required</th>
-            <th className="px-4 py-3 text-left font-semibold text-zinc-300">Default</th>
-            <th className="px-4 py-3 text-left font-semibold text-zinc-300">Description</th>
+            <th className="px-4 py-3 text-left font-semibold text-zinc-300">
+              Prop
+            </th>
+            <th className="px-4 py-3 text-left font-semibold text-zinc-300">
+              Type
+            </th>
+            <th className="px-4 py-3 text-left font-semibold text-zinc-300">
+              Required
+            </th>
+            <th className="px-4 py-3 text-left font-semibold text-zinc-300">
+              Default
+            </th>
+            <th className="px-4 py-3 text-left font-semibold text-zinc-300">
+              Description
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -24,7 +34,9 @@ export default function PropsTable({ props }: PropsTableProps) {
               className={`border-b border-zinc-800 last:border-0 ${i % 2 === 0 ? "bg-zinc-950" : "bg-zinc-900/40"}`}
             >
               <td className="px-4 py-3 font-mono text-lime-400">{prop.name}</td>
-              <td className="px-4 py-3 font-mono text-zinc-400 text-xs">{prop.type}</td>
+              <td className="px-4 py-3 font-mono text-zinc-400 text-xs">
+                {prop.type}
+              </td>
               <td className="px-4 py-3">
                 {prop.required ? (
                   <span className="text-orange-400 font-medium">Yes</span>

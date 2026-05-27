@@ -62,13 +62,14 @@ export function HackerButton({
         original.split("").map((ch, i) => {
           if (ch === " ") return { display: " ", resolved: true };
           const resolveAt =
-            INITIAL_DELAY + (i / Math.max(original.length - 1, 1)) * scrambleDuration;
+            INITIAL_DELAY +
+            (i / Math.max(original.length - 1, 1)) * scrambleDuration;
           if (elapsed >= resolveAt) return { display: ch, resolved: true };
           return {
             display: charset[Math.floor(Math.random() * charset.length)],
             resolved: false,
           };
-        })
+        }),
       );
 
       if (elapsed < INITIAL_DELAY + scrambleDuration) {

@@ -21,12 +21,19 @@ const container = {
 
 const item = {
   hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" as const } },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: "easeOut" as const },
+  },
 };
 
 function SocialProofBadge({ text }: { text: string }) {
   return (
-    <motion.div variants={item} className="inline-flex items-center gap-2 rounded-full border border-lime-400/30 bg-lime-400/10 px-4 py-1.5">
+    <motion.div
+      variants={item}
+      className="inline-flex items-center gap-2 rounded-full border border-lime-400/30 bg-lime-400/10 px-4 py-1.5"
+    >
       <span className="h-2 w-2 rounded-full bg-lime-400 animate-pulse" />
       <span className="text-sm font-medium text-lime-400">{text}</span>
     </motion.div>
@@ -35,7 +42,10 @@ function SocialProofBadge({ text }: { text: string }) {
 
 function ValuePoints({ points }: { points: string[] }) {
   return (
-    <motion.ul variants={item} className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+    <motion.ul
+      variants={item}
+      className="flex flex-wrap justify-center gap-x-6 gap-y-2"
+    >
       {points.map((p) => (
         <li key={p} className="flex items-center gap-2 text-sm text-zinc-400">
           <span className="text-lime-400">✓</span>
@@ -50,7 +60,9 @@ function TrustSignals({ signals }: { signals: string[] }) {
   return (
     <motion.div variants={item} className="flex flex-wrap justify-center gap-4">
       {signals.map((s) => (
-        <span key={s} className="text-xs text-zinc-500">{s}</span>
+        <span key={s} className="text-xs text-zinc-500">
+          {s}
+        </span>
       ))}
     </motion.div>
   );
@@ -85,19 +97,28 @@ export default function CommerceHero({
       >
         {socialProof && <SocialProofBadge text={socialProof} />}
 
-        <motion.h1 variants={item} className="text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
+        <motion.h1
+          variants={item}
+          className="text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl"
+        >
           {title}
         </motion.h1>
 
         {subtitle && (
-          <motion.p variants={item} className="max-w-xl text-base leading-relaxed text-zinc-400 font-mono">
+          <motion.p
+            variants={item}
+            className="max-w-xl text-base leading-relaxed text-zinc-400 font-mono"
+          >
             {subtitle}
           </motion.p>
         )}
 
         {valuePoints.length > 0 && <ValuePoints points={valuePoints} />}
 
-        <motion.div variants={item} className="flex flex-col items-center gap-3">
+        <motion.div
+          variants={item}
+          className="flex flex-col items-center gap-3"
+        >
           {urgencyText && (
             <p className="text-sm font-medium text-orange-400">{urgencyText}</p>
           )}

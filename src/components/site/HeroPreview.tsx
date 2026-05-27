@@ -12,7 +12,9 @@ const heroComponents = {
   commerce: dynamic(() => import("@/components/heroes/CommerceHero")),
   article: dynamic(() => import("@/components/heroes/ArticleHero")),
   portfolio: dynamic(() => import("@/components/heroes/PortfolioHero")),
-  "split-showcase": dynamic(() => import("@/components/heroes/SplitShowcaseHero")),
+  "split-showcase": dynamic(
+    () => import("@/components/heroes/SplitShowcaseHero"),
+  ),
   collage: dynamic(() => import("@/components/heroes/CollageHero")),
   "image-trail": dynamic(() => import("@/components/heroes/ImageTrailHero")),
 } as const;
@@ -26,11 +28,12 @@ interface HeroPreviewProps {
 export default function HeroPreview({ variant }: HeroPreviewProps) {
   const Component = heroComponents[variant.slug as HeroSlug];
 
-  if (!Component) return (
-    <div className="flex h-64 items-center justify-center text-zinc-500">
-      Component not found
-    </div>
-  );
+  if (!Component)
+    return (
+      <div className="flex h-64 items-center justify-center text-zinc-500">
+        Component not found
+      </div>
+    );
 
   return (
     <div className="overflow-hidden rounded-xl border border-zinc-800">

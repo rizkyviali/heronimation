@@ -21,12 +21,20 @@ const container = {
 
 const item = {
   hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" as const } },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: "easeOut" as const },
+  },
 };
 
 const imageAnim = {
   hidden: { opacity: 0, scale: 0.92 },
-  show: { opacity: 1, scale: 1, transition: { duration: 0.7, ease: "easeOut" as const } },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.7, ease: "easeOut" as const },
+  },
 };
 
 export default function SplitHero({
@@ -48,27 +56,42 @@ export default function SplitHero({
       animate="show"
     >
       {subtitle && (
-        <motion.p variants={item} className="text-sm font-semibold uppercase tracking-widest text-zinc-500">
+        <motion.p
+          variants={item}
+          className="text-sm font-semibold uppercase tracking-widest text-zinc-500"
+        >
           {subtitle}
         </motion.p>
       )}
-      <motion.h1 variants={item} className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+      <motion.h1
+        variants={item}
+        className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl"
+      >
         {title}
       </motion.h1>
       {description && (
-        <motion.p variants={item} className="max-w-md text-base leading-relaxed text-zinc-500">
+        <motion.p
+          variants={item}
+          className="max-w-md text-base leading-relaxed text-zinc-500"
+        >
           {description}
         </motion.p>
       )}
       {(primaryButton || secondaryButton) && (
         <motion.div variants={item} className="flex flex-wrap gap-3">
           {primaryButton && (
-            <a href={primaryButton.href} className="rounded-full bg-lime-400 px-7 py-3 text-sm font-semibold text-zinc-900 transition-opacity hover:opacity-80">
+            <a
+              href={primaryButton.href}
+              className="rounded-full bg-lime-400 px-7 py-3 text-sm font-semibold text-zinc-900 transition-opacity hover:opacity-80"
+            >
               {primaryButton.text}
             </a>
           )}
           {secondaryButton && (
-            <a href={secondaryButton.href} className="rounded-full border border-zinc-700 px-7 py-3 text-sm font-semibold transition-colors hover:border-zinc-500">
+            <a
+              href={secondaryButton.href}
+              className="rounded-full border border-zinc-700 px-7 py-3 text-sm font-semibold transition-colors hover:border-zinc-500"
+            >
               {secondaryButton.text}
             </a>
           )}
@@ -96,9 +119,15 @@ export default function SplitHero({
     <section className="flex min-h-screen items-center bg-zinc-950 text-white">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-2">
         {imagePosition === "left" ? (
-          <>{imageCol}{textCol}</>
+          <>
+            {imageCol}
+            {textCol}
+          </>
         ) : (
-          <>{textCol}{imageCol}</>
+          <>
+            {textCol}
+            {imageCol}
+          </>
         )}
       </div>
     </section>

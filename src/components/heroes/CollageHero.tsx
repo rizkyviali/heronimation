@@ -51,7 +51,13 @@ function getCardAnimate(index: number, hovered: number | null) {
 
 export type CollageItem =
   | { type: "image"; src: string; alt?: string }
-  | { type: "stat"; value: number; suffix?: string; label: string; sublabel?: string }
+  | {
+      type: "stat";
+      value: number;
+      suffix?: string;
+      label: string;
+      sublabel?: string;
+    }
   | { type: "video"; src: string };
 
 function CollageCard({ item }: { item: CollageItem }) {
@@ -68,7 +74,13 @@ function CollageCard({ item }: { item: CollageItem }) {
 
   if (item.type === "video") {
     return (
-      <video autoPlay loop muted playsInline className="h-full w-full object-cover">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="h-full w-full object-cover"
+      >
         <source src={item.src} type="video/mp4" />
       </video>
     );
@@ -148,8 +160,12 @@ export default function CollageHero({
       }`}
     >
       {/* Text block */}
-      <div className={`mx-auto w-full max-w-7xl flex ${centered ? "justify-center" : ""}`}>
-        <div className={`w-full max-w-2xl ${centered ? "flex flex-col items-center text-center" : ""}`}>
+      <div
+        className={`mx-auto w-full max-w-7xl flex ${centered ? "justify-center" : ""}`}
+      >
+        <div
+          className={`w-full max-w-2xl ${centered ? "flex flex-col items-center text-center" : ""}`}
+        >
           {label && (
             <motion.p
               initial={{ opacity: 0, y: 12 }}

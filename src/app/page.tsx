@@ -59,8 +59,8 @@ export default function HomePage() {
             Hero<span className="text-lime-400">nimation</span>
           </h1>
           <p className="text-lg leading-relaxed text-zinc-400">
-            Animated hero sections extracted from real projects. Browse a variant,
-            preview it live, and copy the code — no install needed.
+            Animated hero sections extracted from real projects. Browse a
+            variant, preview it live, and copy the code — no install needed.
           </p>
         </div>
 

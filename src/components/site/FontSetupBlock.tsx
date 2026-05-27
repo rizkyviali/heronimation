@@ -36,9 +36,9 @@ export default function FontSetupBlock() {
       {open && (
         <div className="border-t border-zinc-800 px-4 pb-4 pt-3">
           <p className="mb-3 text-xs text-zinc-500">
-            This component uses the{" "}
-            <span className="text-zinc-300">Geist</span> font. Add the following
-            to your <code className="text-lime-400">app/layout.tsx</code> if you
+            This component uses the <span className="text-zinc-300">Geist</span>{" "}
+            font. Add the following to your{" "}
+            <code className="text-lime-400">app/layout.tsx</code> if you
             haven&apos;t already.
           </p>
           <CodeBlock code={FONT_SNIPPET} language="tsx" />

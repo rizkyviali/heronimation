@@ -22,7 +22,11 @@ const container = {
 
 const item = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" as const },
+  },
 };
 
 function TickerTrack({ items }: { items: TickerItem[] }) {
@@ -31,7 +35,10 @@ function TickerTrack({ items }: { items: TickerItem[] }) {
     <div className="overflow-hidden w-full [mask-image:_linear-gradient(to_right,transparent_0,_black_80px,_black_calc(100%-80px),transparent_100%)]">
       <div className="flex animate-ticker whitespace-nowrap">
         {doubled.map((t, i) => (
-          <span key={i} className="mx-6 flex-shrink-0 text-sm font-medium text-zinc-500 uppercase tracking-widest">
+          <span
+            key={i}
+            className="mx-6 flex-shrink-0 text-sm font-medium text-zinc-500 uppercase tracking-widest"
+          >
             {t.label}
             <span className="ml-6 text-lime-400">·</span>
           </span>
@@ -62,7 +69,10 @@ export default function TickerHero({
         animate="show"
       >
         {tagline && (
-          <motion.p variants={item} className="mb-4 text-sm font-semibold uppercase tracking-widest text-lime-400">
+          <motion.p
+            variants={item}
+            className="mb-4 text-sm font-semibold uppercase tracking-widest text-lime-400"
+          >
             {tagline}
           </motion.p>
         )}
@@ -75,20 +85,32 @@ export default function TickerHero({
         </motion.h1>
 
         {description && (
-          <motion.p variants={item} className="mx-auto mb-10 max-w-xl text-base leading-relaxed text-zinc-400">
+          <motion.p
+            variants={item}
+            className="mx-auto mb-10 max-w-xl text-base leading-relaxed text-zinc-400"
+          >
             {description}
           </motion.p>
         )}
 
         {(primaryButton || secondaryButton) && (
-          <motion.div variants={item} className="flex flex-col gap-3 sm:flex-row sm:justify-center">
+          <motion.div
+            variants={item}
+            className="flex flex-col gap-3 sm:flex-row sm:justify-center"
+          >
             {primaryButton && (
-              <a href={primaryButton.href} className="rounded-full bg-lime-400 px-8 py-3 text-sm font-bold text-zinc-900 transition-opacity hover:opacity-80">
+              <a
+                href={primaryButton.href}
+                className="rounded-full bg-lime-400 px-8 py-3 text-sm font-bold text-zinc-900 transition-opacity hover:opacity-80"
+              >
                 {primaryButton.text}
               </a>
             )}
             {secondaryButton && (
-              <a href={secondaryButton.href} className="rounded-full border border-zinc-700 px-8 py-3 text-sm font-semibold transition-colors hover:border-zinc-400">
+              <a
+                href={secondaryButton.href}
+                className="rounded-full border border-zinc-700 px-8 py-3 text-sm font-semibold transition-colors hover:border-zinc-400"
+              >
                 {secondaryButton.text}
               </a>
             )}

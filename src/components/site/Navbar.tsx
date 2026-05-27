@@ -10,7 +10,9 @@ export default function Navbar() {
           </span>
         </Link>
         <nav className="flex items-center gap-6 text-sm text-zinc-400">
-          <Link href="/" className="transition-colors hover:text-white">Components</Link>
+          <Link href="/" className="transition-colors hover:text-white">
+            Components
+          </Link>
           <a
             href="https://github.com"
             target="_blank"
