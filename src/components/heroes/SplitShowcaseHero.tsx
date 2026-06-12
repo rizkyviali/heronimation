@@ -60,8 +60,6 @@ export interface ShowcaseSlide {
   description: string;
 }
 
-const SLIDE_H = 560;
-
 function MetricsSlider({ slides }: { slides: ShowcaseSlide[] }) {
   const [current, setCurrent] = useState(0);
 
@@ -74,19 +72,15 @@ function MetricsSlider({ slides }: { slides: ShowcaseSlide[] }) {
   }, [slides.length]);
 
   return (
-    <div
-      className="relative w-full overflow-hidden bg-zinc-900 text-white"
-      style={{ height: SLIDE_H }}
-    >
+    <div className="relative h-[480px] w-full overflow-hidden bg-zinc-900 text-white sm:h-[560px] lg:h-full lg:min-h-0">
       <div
-        className="flex flex-col transition-transform duration-1000 ease-in-out"
-        style={{ transform: `translateY(-${current * SLIDE_H}px)` }}
+        className="flex h-full flex-col transition-transform duration-1000 ease-in-out"
+        style={{ transform: `translateY(-${current * 100}%)` }}
       >
         {slides.map((slide) => (
           <div
             key={slide.id}
-            className="flex flex-shrink-0 flex-col gap-8 items-center justify-center p-8 w-full text-center"
-            style={{ height: SLIDE_H }}
+            className="flex h-full w-full flex-shrink-0 flex-col items-center justify-center gap-8 p-8 text-center"
           >
             <p className="font-black text-[5rem] sm:text-[9rem] lg:text-[13rem] leading-none text-white/20 select-none">
               {slide.metric}
@@ -149,7 +143,7 @@ export default function SplitShowcaseHero({
   };
 
   return (
-    <section className="flex flex-col min-h-screen bg-stone-100 text-zinc-900">
+    <section className="flex min-h-screen flex-col bg-stone-100 text-zinc-900 lg:h-screen lg:min-h-0 lg:overflow-hidden">
       {/* Availability strip */}
       {availableFrom && (
         <div className="flex items-center justify-center py-2 bg-stone-50 border-b border-zinc-200">
@@ -161,9 +155,9 @@ export default function SplitShowcaseHero({
       )}
 
       {/* Split layout */}
-      <div className="flex flex-1 flex-col lg:flex-row">
+      <div className="flex flex-1 flex-col lg:min-h-0 lg:flex-row">
         {/* Left: identity */}
-        <div className="flex flex-col w-full lg:max-w-[50%] bg-stone-100 border-b lg:border-b-0 lg:border-r border-zinc-200">
+        <div className="flex w-full flex-col border-zinc-200 border-b bg-stone-100 lg:h-full lg:max-w-[50%] lg:border-r lg:border-b-0">
           {/* Role row */}
           <div className="px-6 pt-5 pb-4 border-b border-zinc-200">
             <p className="text-xs text-zinc-400 uppercase tracking-widest font-mono">
@@ -214,7 +208,7 @@ export default function SplitShowcaseHero({
         </div>
 
         {/* Right: auto-cycling metrics */}
-        <div className="w-full lg:flex-1">
+        <div className="flex w-full lg:h-full lg:flex-1">
           <MetricsSlider slides={slides} />
         </div>
       </div>
