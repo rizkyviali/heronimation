@@ -72,7 +72,7 @@ function MetricsSlider({ slides }: { slides: ShowcaseSlide[] }) {
   }, [slides.length]);
 
   return (
-    <div className="relative h-[480px] w-full overflow-hidden bg-zinc-900 text-white sm:h-[560px] lg:h-full lg:min-h-0">
+    <div className="relative h-[34rem] w-full overflow-hidden bg-lime-300 text-center text-zinc-950 lg:h-full lg:min-h-0">
       <div
         className="flex h-full flex-col transition-transform duration-1000 ease-in-out"
         style={{ transform: `translateY(-${current * 100}%)` }}
@@ -80,18 +80,22 @@ function MetricsSlider({ slides }: { slides: ShowcaseSlide[] }) {
         {slides.map((slide) => (
           <div
             key={slide.id}
-            className="flex h-full w-full flex-shrink-0 flex-col items-center justify-center gap-8 p-8 text-center"
+            className="flex h-full w-full flex-shrink-0 flex-col items-center justify-center gap-7 p-8 text-center"
           >
-            <p className="font-black text-[5rem] sm:text-[9rem] lg:text-[13rem] leading-none text-white/20 select-none">
-              {slide.metric}
-            </p>
-            <div className="space-y-3 max-w-xs">
-              <h3 className="font-semibold text-2xl">{slide.title}</h3>
-              <p className="text-sm text-white/50 uppercase tracking-widest">
+            <div className="overflow-visible">
+              <h2 className="select-none font-themadi text-[clamp(7rem,17vw,15rem)] leading-[1.08] text-zinc-950/35">
+                {slide.metric}
+              </h2>
+            </div>
+            <div className="mx-auto max-w-3xl space-y-4">
+              <h3 className="font-mono text-2xl text-zinc-950 sm:text-3xl">
+                {slide.title}
+              </h3>
+              <p className="font-mono text-sm uppercase leading-relaxed tracking-widest text-zinc-950/70 sm:text-lg">
                 {slide.description}
               </p>
             </div>
-            <div className="h-px w-24 bg-white/10" />
+            <div className="mx-auto h-1 w-28 bg-zinc-950" />
           </div>
         ))}
       </div>
@@ -104,12 +108,41 @@ function MetricsSlider({ slides }: { slides: ShowcaseSlide[] }) {
             type="button"
             aria-label={`Go to slide ${i + 1}`}
             onClick={() => setCurrent(i)}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              i === current ? "w-8 bg-white" : "w-1.5 bg-white/30"
+            className={`h-2 rounded-full transition-all duration-300 ${
+              i === current ? "w-8 bg-zinc-950" : "w-2 bg-zinc-950/30"
             }`}
           />
         ))}
       </div>
+    </div>
+  );
+}
+
+function SourceIntroTitle({ name, role }: { name: string; role: string }) {
+  const roleWords = role.split(" ");
+  const firstLine = roleWords[0] ?? role;
+  const secondLine = roleWords.slice(1).join(" ");
+
+  return (
+    <div className="flex w-max animate-text-scroll items-center py-10">
+      <span className="flex shrink-0 items-center px-8 sm:px-12">
+        <span className="font-themadi text-[clamp(4.5rem,10vw,8rem)] leading-[1.35] tracking-wide">
+          {name}
+        </span>
+        <span className="ml-4 flex flex-col text-start font-mono font-light text-[clamp(2rem,3.6vw,3.25rem)] italic leading-[0.9] tracking-normal">
+          <span>{firstLine}</span>
+          {secondLine && <span>{secondLine}</span>}
+        </span>
+      </span>
+      <span className="flex shrink-0 items-center px-8 sm:px-12" aria-hidden>
+        <span className="font-themadi text-[clamp(4.5rem,10vw,8rem)] leading-[1.35] tracking-wide">
+          {name}
+        </span>
+        <span className="ml-4 flex flex-col text-start font-mono font-light text-[clamp(2rem,3.6vw,3.25rem)] italic leading-[0.9] tracking-normal">
+          <span>{firstLine}</span>
+          {secondLine && <span>{secondLine}</span>}
+        </span>
+      </span>
     </div>
   );
 }
@@ -143,7 +176,7 @@ export default function SplitShowcaseHero({
   };
 
   return (
-    <section className="flex min-h-screen flex-col bg-stone-100 text-zinc-900 lg:h-screen lg:min-h-0 lg:overflow-hidden">
+    <section className="flex min-h-screen flex-col bg-stone-100 text-zinc-950 lg:h-screen lg:min-h-0 lg:overflow-hidden">
       {/* Availability strip */}
       {availableFrom && (
         <div className="flex items-center justify-center py-2 bg-stone-50 border-b border-zinc-200">
@@ -157,36 +190,36 @@ export default function SplitShowcaseHero({
       {/* Split layout */}
       <div className="flex flex-1 flex-col lg:min-h-0 lg:flex-row">
         {/* Left: identity */}
-        <div className="flex w-full flex-col border-zinc-200 border-b bg-stone-100 lg:h-full lg:max-w-[50%] lg:border-r lg:border-b-0">
+        <div className="flex w-full flex-col border-zinc-200 border-b bg-stone-100 text-zinc-950 lg:h-full lg:max-w-[50%] lg:border-r lg:border-b-0">
           {/* Role row */}
-          <div className="px-6 pt-5 pb-4 border-b border-zinc-200">
-            <p className="text-xs text-zinc-400 uppercase tracking-widest font-mono">
+          <div className="border-zinc-200 border-b px-6 pt-5 pb-4">
+            <p className="font-mono text-zinc-500 text-xs uppercase tracking-widest">
               {role}
             </p>
           </div>
 
           {/* Name */}
-          <div className="flex flex-1 items-center justify-start px-6 py-10 overflow-hidden">
+          <div className="flex flex-1 items-center overflow-hidden py-4">
             <motion.h1
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
-              className="font-black text-[clamp(3.5rem,10vw,8rem)] leading-[0.9] tracking-tight uppercase text-zinc-900 break-words"
+              className="w-full overflow-hidden font-bold text-zinc-950 uppercase"
             >
-              {name}
+              <SourceIntroTitle name={name} role={role} />
             </motion.h1>
           </div>
 
           {/* Email */}
           {email && (
-            <div className="px-6 py-4 border-t border-zinc-200">
+            <div className="border-zinc-200 border-t px-6 py-4">
               <motion.button
                 type="button"
                 onClick={copyEmail}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
-                className="flex gap-2 items-center font-semibold text-base text-zinc-900 hover:text-zinc-500 transition-colors"
+                className="flex items-center gap-2 font-mono font-semibold text-base text-zinc-950 transition-colors hover:text-lime-600 md:text-xl"
               >
                 {emailLabel}
                 <svg
