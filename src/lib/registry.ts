@@ -6,16 +6,49 @@ export interface PropDef {
   description: string;
 }
 
+export interface RequirementDef {
+  label: string;
+  description: string;
+}
+
 export interface HeroVariant {
   slug: string;
   name: string;
   description: string;
   tags: string[];
   componentFile: string;
+  requirements: RequirementDef[];
   props: PropDef[];
   defaultProps: Record<string, unknown>;
   type?: "hero" | "component";
 }
+
+const BASE_REQUIREMENTS: RequirementDef[] = [
+  {
+    label: "React 19+",
+    description: "Client component support for the copied TSX file.",
+  },
+  {
+    label: "Tailwind CSS v4",
+    description: "Styling is expressed with Tailwind utility classes.",
+  },
+  {
+    label: "Framer Motion v12",
+    description: "Used for entrance, hover, scroll, or looping animation.",
+  },
+];
+
+const FONT_REQUIREMENT: RequirementDef = {
+  label: "Font setup",
+  description:
+    "Uses project font variables/classes from the demo; keep them or swap for your own fonts.",
+};
+
+const ASSET_REQUIREMENT: RequirementDef = {
+  label: "Images/assets",
+  description:
+    "Replace the demo image paths with assets from your own project.",
+};
 
 export const heroVariants: HeroVariant[] = [
   {
@@ -23,9 +56,21 @@ export const heroVariants: HeroVariant[] = [
     slug: "hacker-button",
     name: "Hacker Button",
     description:
-      "Plain text button that scrambles each letter through random glyphs on hover, resolving left to right. No framer-motion — pure requestAnimationFrame.",
+      "Interactive text button for CTAs, nav links, or portfolio actions. Scrambles characters on hover and works without Framer Motion.",
     tags: ["button", "text-effect", "hover", "scramble", "interactive"],
     componentFile: "HackerButton.tsx",
+    requirements: [
+      {
+        label: "React 19+",
+        description:
+          "Uses client-side state and requestAnimationFrame for the hover effect.",
+      },
+      {
+        label: "Tailwind CSS v4",
+        description:
+          "Only needed for the demo classes; the reusable button accepts your own className.",
+      },
+    ],
     props: [
       {
         name: "children",
@@ -82,9 +127,10 @@ export const heroVariants: HeroVariant[] = [
     slug: "project-chat-scene",
     name: "Project Chat Scene",
     description:
-      "Animated project brief chat with typing indicators, a draft rewrite, and a sent reply sequence. Adapted from the Loka Crafta and Belanesia case studies.",
+      "Chat-style scene for case studies, product briefs, or launch stories where a typed reply reveals the key message.",
     tags: ["chat", "typing", "brief", "case-study", "framer-motion"],
     componentFile: "ProjectChatScene.tsx",
+    requirements: [...BASE_REQUIREMENTS, ASSET_REQUIREMENT],
     props: [
       {
         name: "ariaLabel",
@@ -190,9 +236,10 @@ export const heroVariants: HeroVariant[] = [
     slug: "centered",
     name: "Centered Hero",
     description:
-      "Clean, centered layout with title, subtitle, description, and CTA buttons. Works for any page type.",
+      "Simple centered hero for product pages, portfolios, docs, or launch screens that need one clear message and one or two CTAs.",
     tags: ["centered", "gradient", "minimal", "cta"],
     componentFile: "CenteredHero.tsx",
+    requirements: BASE_REQUIREMENTS,
     props: [
       {
         name: "title",
@@ -253,9 +300,10 @@ export const heroVariants: HeroVariant[] = [
     slug: "split",
     name: "Split Hero",
     description:
-      "Two-column layout with text on one side and an image on the other. Supports optional spin animation.",
+      "Two-column hero for pages that need a strong message beside a product image, visual object, or brand asset.",
     tags: ["split", "image", "two-column", "dark"],
     componentFile: "SplitHero.tsx",
+    requirements: [...BASE_REQUIREMENTS, ASSET_REQUIREMENT],
     props: [
       {
         name: "title",
@@ -332,9 +380,10 @@ export const heroVariants: HeroVariant[] = [
     slug: "ticker",
     name: "Ticker Hero",
     description:
-      "Scrolling marquee ticker at the top with bold centered content below. Great for portfolios and agency sites.",
+      "Bold launch or portfolio hero with a scrolling ticker for services, skills, locations, or campaign terms.",
     tags: ["ticker", "marquee", "portfolio", "bold", "dark"],
     componentFile: "TickerHero.tsx",
+    requirements: BASE_REQUIREMENTS,
     props: [
       {
         name: "title",
@@ -397,9 +446,10 @@ export const heroVariants: HeroVariant[] = [
     slug: "watermark",
     name: "Watermark Hero",
     description:
-      "Giant blurred background text with centered content and a stats row at the bottom.",
+      "High-impact hero for landing pages that need a large background word, focused copy, and quick proof points.",
     tags: ["watermark", "bold", "stats", "overlay"],
     componentFile: "WatermarkHero.tsx",
+    requirements: BASE_REQUIREMENTS,
     props: [
       {
         name: "watermarkText",
@@ -465,9 +515,10 @@ export const heroVariants: HeroVariant[] = [
     slug: "commerce",
     name: "Commerce Hero",
     description:
-      "Conversion-optimized hero with social proof, value points, urgency text, and trust signals.",
+      "Sales-focused hero for offers, ecommerce pages, or waitlists with proof, value points, urgency, and trust signals.",
     tags: ["commerce", "conversion", "social-proof", "cta"],
     componentFile: "CommerceHero.tsx",
+    requirements: BASE_REQUIREMENTS,
     props: [
       {
         name: "title",
@@ -547,9 +598,10 @@ export const heroVariants: HeroVariant[] = [
     slug: "portfolio",
     name: "Portfolio Hero",
     description:
-      "Full-screen hero with a scrolling skill tag marquee at the top and asymmetrically positioned headline + tagline. Built for creative portfolios.",
+      "Creative portfolio hero with a scrolling skill marquee and asymmetric headline layout for a strong personal introduction.",
     tags: ["portfolio", "marquee", "asymmetric", "dark", "creative"],
     componentFile: "PortfolioHero.tsx",
+    requirements: BASE_REQUIREMENTS,
     props: [
       {
         name: "title",
@@ -612,9 +664,10 @@ export const heroVariants: HeroVariant[] = [
     slug: "split-showcase",
     name: "Split Showcase Hero",
     description:
-      "Two-column layout: identity (name + email) on the left, auto-cycling metric/skill cards on the right. Optional availability status strip.",
+      "Personal profile hero with contact details, availability status, and auto-cycling highlight cards for skills or metrics.",
     tags: ["portfolio", "split", "metrics", "interactive", "auto-play"],
     componentFile: "SplitShowcaseHero.tsx",
+    requirements: [...BASE_REQUIREMENTS, FONT_REQUIREMENT],
     props: [
       {
         name: "name",
@@ -697,9 +750,10 @@ export const heroVariants: HeroVariant[] = [
     slug: "collage",
     name: "Collage Hero",
     description:
-      "Large headline with a 4-card photo/stat collage below. Cards fan out and spread on hover with a spring animation.",
+      "Editorial or product hero with a headline and four-card media/stat collage that expands on hover.",
     tags: ["collage", "split", "hover", "stat", "interactive"],
     componentFile: "CollageHero.tsx",
+    requirements: [...BASE_REQUIREMENTS, ASSET_REQUIREMENT],
     props: [
       {
         name: "title",
@@ -792,9 +846,10 @@ export const heroVariants: HeroVariant[] = [
     slug: "image-trail",
     name: "Image Trail Hero",
     description:
-      "Images spawn and fade along the cursor path as you move across the section. Falls idle after 2 s of inactivity.",
+      "Interactive hero for visual campaigns or portfolios where images appear along the visitor's cursor path.",
     tags: ["cursor", "image-trail", "interactive", "dark"],
     componentFile: "ImageTrailHero.tsx",
+    requirements: [...BASE_REQUIREMENTS, ASSET_REQUIREMENT],
     props: [
       {
         name: "images",
@@ -864,9 +919,10 @@ export const heroVariants: HeroVariant[] = [
     slug: "article",
     name: "Article Hero",
     description:
-      "Full-screen magazine cover: full-bleed background image with gradient overlays, large overlaid headline, and a metadata strip at the bottom.",
+      "Magazine-style article header with full-bleed imagery, overlaid headline, metadata, and a reading CTA.",
     tags: ["blog", "article", "editorial", "full-screen", "magazine"],
     componentFile: "ArticleHero.tsx",
+    requirements: [...BASE_REQUIREMENTS, ASSET_REQUIREMENT],
     props: [
       {
         name: "thumbnail",

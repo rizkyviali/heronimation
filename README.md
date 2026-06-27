@@ -1,40 +1,43 @@
 # Heronimation
 
-Animated hero sections and components extracted from real projects. Copy a file into your project and go — no install, no build step.
+Animated hero sections and components extracted from real projects. Copy a source file into your project and adapt it to your stack.
 
 ## What it is
 
-A source-only component library of hero sections I've actually shipped. Each variant is a self-contained file: drop it into any React + Tailwind + Framer Motion project and it works. There's no demo app in this repo — the live preview lives at [dev.rizkyviali.com/heronimation](https://dev.rizkyviali.com/heronimation).
+A source-only component library of hero sections I've actually shipped. Heronimation is not meant to be installed as a runtime package: preview a variant, copy the TSX file, then keep or replace its listed requirements. The live preview lives at [dev.rizkyviali.com/heronimation](https://dev.rizkyviali.com/heronimation).
 
 ## Variants
 
 | Slug | Description |
 |---|---|
-| `centered` | Clean centered layout with title, subtitle, and CTA buttons |
-| `split` | Two-column layout with text and image, optional spin animation |
-| `ticker` | Scrolling marquee strip with bold centered content below |
-| `watermark` | Giant blurred background text with centered content and stats |
-| `commerce` | Conversion-optimized with social proof, value points, and trust signals |
-| `portfolio` | Scrolling tag marquee + asymmetric headline/tagline layout |
-| `split-showcase` | Split: identity left, auto-cycling metric cards right |
-| `collage` | Headline + 4-card photo/stat collage with fan-spread hover |
-| `image-trail` | Images spawn along the cursor trail as you move across the section |
-| `article` | Full-screen magazine cover with full-bleed image and overlaid headline |
-| `hacker-button` | Plain-text button that scrambles each letter on hover (no framer-motion) |
+| `centered` | Simple centered hero for one message and one or two CTAs |
+| `split` | Two-column hero for copy beside a product image or brand asset |
+| `ticker` | Bold launch or portfolio hero with a scrolling terms strip |
+| `watermark` | High-impact hero with a large background word and proof points |
+| `commerce` | Sales-focused hero with proof, value points, urgency, and trust signals |
+| `portfolio` | Creative portfolio hero with a scrolling skill marquee |
+| `split-showcase` | Personal profile hero with availability and cycling highlight cards |
+| `collage` | Editorial or product hero with a four-card media/stat collage |
+| `image-trail` | Interactive visual hero where images follow the cursor path |
+| `article` | Magazine-style article header with full-bleed imagery and metadata |
+| `hacker-button` | Text button that scrambles on hover without Framer Motion |
 
 ## Requirements
 
-Each file expects these in the consuming project:
+Each variant lists its exact requirements in `src/lib/registry.ts`. Most hero sections expect:
 
 - React 19+
 - Tailwind CSS v4
-- Framer Motion v12 (except `hacker-button`, which is dependency-free)
-- `next/font/google` for the display fonts (or swap for your own)
+- Framer Motion v12
+
+Some demos also reference local image paths or project-specific font classes such as `font-themadi`. Replace those with assets and fonts from your own app.
 
 ## Usage
 
-1. Copy `src/components/heroes/YourHero.tsx` into your project.
-2. Pass props as documented in `src/lib/registry.ts` (each variant lists its props and defaults).
+1. Pick a variant in the live preview.
+2. Check its requirements and props in `src/lib/registry.ts`.
+3. Copy `src/components/heroes/YourHero.tsx` into your project.
+4. Replace demo assets, fonts, and copy with your own.
 
 ## Adding a variant
 

@@ -2,7 +2,7 @@
   "name": "heronimation",
   "version": "0.1.0",
   "private": true,
-  "description": "Copy-paste animated hero sections and components (React + framer-motion + Tailwind). Source-only registry — no build step.",
+  "description": "Copy-paste animated hero sections and components for React, Tailwind, and Framer Motion projects.",
   "exports": {
     "./registry": "./src/lib/registry.ts",
     "./heroes/*": "./src/components/heroes/*.tsx"
