@@ -17,11 +17,17 @@ export interface HackerButtonProps {
 }
 
 interface CharState {
+  id: string;
   display: string;
   resolved: boolean;
 }
 
-export function HackerButton({
+const toResolved = (text: string): CharState[] =>
+  text
+    .split("")
+    .map((ch, index) => ({ id: `${index}-${ch}`, display: ch, resolved: true }));
+
+export default function HackerButton({
   children,
   onClick,
   href,
@@ -31,9 +37,6 @@ export function HackerButton({
 }: HackerButtonProps) {
   const original = children;
   const charset = CHARSETS[variant];
-
-  const toResolved = (text: string): CharState[] =>
-    text.split("").map((ch) => ({ display: ch, resolved: true }));
 
   const [chars, setChars] = useState<CharState[]>(() => toResolved(original));
   const [hovered, setHovered] = useState(false);
@@ -60,12 +63,14 @@ export function HackerButton({
 
       setChars(
         original.split("").map((ch, i) => {
-          if (ch === " ") return { display: " ", resolved: true };
+          const id = `${i}-${ch}`;
+          if (ch === " ") return { id, display: " ", resolved: true };
           const resolveAt =
             INITIAL_DELAY +
             (i / Math.max(original.length - 1, 1)) * scrambleDuration;
-          if (elapsed >= resolveAt) return { display: ch, resolved: true };
+          if (elapsed >= resolveAt) return { id, display: ch, resolved: true };
           return {
+            id,
             display: charset[Math.floor(Math.random() * charset.length)],
             resolved: false,
           };
@@ -108,11 +113,12 @@ export function HackerButton({
 
   const content = (
     <span className="inline-flex items-center gap-1.5">
+      <span className="sr-only">{original}</span>
       <span style={bracketStyle("left")}>[</span>
-      <span aria-label={original} className="inline-flex">
-        {chars.map((c, i) => (
+      <span aria-hidden="true" className="inline-flex">
+        {chars.map((c) => (
           <span
-            key={i}
+            key={c.id}
             style={{
               color: c.resolved ? "currentColor" : "#4ade80",
               transition: c.resolved ? "color 80ms ease" : "none",
@@ -147,8 +153,8 @@ export function HackerButton({
   );
 }
 
-// Demo layout shown in the preview
-export default function HackerButtonDemo() {
+// Demo layout shown in the preview.
+export function HackerButtonDemo() {
   return (
     <div className="flex min-h-[500px] flex-col items-center justify-center gap-10 bg-zinc-950 px-8 py-16">
       <p className="mb-2 font-mono text-xs uppercase tracking-widest text-zinc-600">
