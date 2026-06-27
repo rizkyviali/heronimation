@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 export interface ChatMessage {
   sender: string;
@@ -79,6 +79,20 @@ function buildTypingFrames(draftText: string, finalText: string): string[] {
   );
 
   return [...draftFrames, ...deleteFrames, ...finalFrames];
+}
+
+function preloadImage(src: string): Promise<void> {
+  return new Promise((resolve) => {
+    const image = new Image();
+
+    image.onload = () => resolve();
+    image.onerror = () => resolve();
+    image.src = src;
+
+    if (image.complete) {
+      resolve();
+    }
+  });
 }
 
 function Avatar({ item }: { item: ChatMessage }) {
@@ -196,9 +210,56 @@ export default function ProjectChatScene({
   const [typingFollowUpMessageIndex, setTypingFollowUpMessageIndex] = useState<
     number | null
   >(null);
+  const [areProfileImagesReady, setAreProfileImagesReady] = useState(false);
+  const messagesViewportRef = useRef<HTMLDivElement>(null);
   const draftMessage = draftText ?? "";
   const messageCount = messages.length;
   const followUpMessageCount = followUpMessages.length;
+  const profileImageSourcesKey = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          [
+            brand.logoSrc,
+            reply.avatarSrc,
+            ...messages.map((message) => message.avatarSrc),
+            ...followUpMessages.map((message) => message.avatarSrc),
+          ].filter((src): src is string => Boolean(src)),
+        ),
+      ).join("\n"),
+    [brand.logoSrc, followUpMessages, messages, reply.avatarSrc],
+  );
+  const transcriptScrollKey = [
+    hasSentReply,
+    typingFollowUpMessageIndex,
+    typingMessageIndex,
+    visibleFollowUpMessageCount,
+    visibleMessageCount,
+  ].join(":");
+
+  useEffect(() => {
+    let isCancelled = false;
+    const profileImageSources = profileImageSourcesKey
+      .split("\n")
+      .filter(Boolean);
+
+    setAreProfileImagesReady(false);
+
+    if (profileImageSources.length === 0) {
+      setAreProfileImagesReady(true);
+      return;
+    }
+
+    Promise.all(profileImageSources.map(preloadImage)).then(() => {
+      if (!isCancelled) {
+        setAreProfileImagesReady(true);
+      }
+    });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [profileImageSourcesKey]);
 
   useEffect(() => {
     setComposerText("");
@@ -208,7 +269,7 @@ export default function ProjectChatScene({
     setVisibleFollowUpMessageCount(0);
     setTypingFollowUpMessageIndex(null);
 
-    if (!isInView) return;
+    if (!isInView || !areProfileImagesReady) return;
 
     const timeouts: ReturnType<typeof setTimeout>[] = [];
     const frames = buildTypingFrames(draftMessage, reply.message);
@@ -303,6 +364,7 @@ export default function ProjectChatScene({
     };
   }, [
     draftMessage,
+    areProfileImagesReady,
     followUpMessageCount,
     followUpMessages,
     isInView,
@@ -310,6 +372,14 @@ export default function ProjectChatScene({
     messages,
     reply.message,
   ]);
+
+  useEffect(() => {
+    const messagesViewport = messagesViewportRef.current;
+
+    if (!messagesViewport || transcriptScrollKey.length === 0) return;
+
+    messagesViewport.scrollTop = messagesViewport.scrollHeight;
+  }, [transcriptScrollKey]);
 
   return (
     <section
@@ -352,60 +422,62 @@ export default function ProjectChatScene({
           </div>
         </div>
 
-        <div className="flex min-h-[28rem] flex-col justify-end gap-3 p-4 md:p-5">
-          {messages.slice(0, visibleMessageCount).map((item) => (
-            <ChatBubble
-              key={`${item.sender}-${item.message}`}
-              item={item}
-              delay={0}
-            />
-          ))}
-
-          {typingMessageIndex !== null && messages[typingMessageIndex] && (
-            <TypingIndicator item={messages[typingMessageIndex]} />
-          )}
-
-          {hasSentReply && (
-            <motion.div
-              className="ml-auto flex max-w-[92%] flex-row-reverse items-end gap-2 md:max-w-[76%]"
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.38, ease: "easeOut" }}
-            >
-              <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full bg-cyan-400">
-                <img
-                  src={reply.avatarSrc}
-                  alt={reply.avatarAlt}
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <figure className="rounded-2xl rounded-br-sm border border-cyan-300/40 bg-cyan-300/15 px-4 py-3">
-                <figcaption className="mb-1.5 text-[0.68rem] font-medium uppercase tracking-[0.13em] text-cyan-300">
-                  {reply.sender}
-                </figcaption>
-                <blockquote className="text-sm font-medium leading-relaxed text-zinc-100">
-                  {reply.message}
-                </blockquote>
-              </figure>
-            </motion.div>
-          )}
-
-          {typingFollowUpMessageIndex !== null &&
-            followUpMessages[typingFollowUpMessageIndex] && (
-              <TypingIndicator
-                item={followUpMessages[typingFollowUpMessageIndex]}
-              />
-            )}
-
-          {followUpMessages
-            .slice(0, visibleFollowUpMessageCount)
-            .map((item) => (
+        <div ref={messagesViewportRef} className="h-[28rem] overflow-y-auto">
+          <div className="flex min-h-full flex-col justify-end gap-3 p-4 md:p-5">
+            {messages.slice(0, visibleMessageCount).map((item) => (
               <ChatBubble
                 key={`${item.sender}-${item.message}`}
                 item={item}
                 delay={0}
               />
             ))}
+
+            {typingMessageIndex !== null && messages[typingMessageIndex] && (
+              <TypingIndicator item={messages[typingMessageIndex]} />
+            )}
+
+            {hasSentReply && (
+              <motion.div
+                className="ml-auto flex max-w-[92%] flex-row-reverse items-end gap-2 md:max-w-[76%]"
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.38, ease: "easeOut" }}
+              >
+                <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full bg-cyan-400">
+                  <img
+                    src={reply.avatarSrc}
+                    alt={reply.avatarAlt}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <figure className="rounded-2xl rounded-br-sm border border-cyan-300/40 bg-cyan-300/15 px-4 py-3">
+                  <figcaption className="mb-1.5 text-[0.68rem] font-medium uppercase tracking-[0.13em] text-cyan-300">
+                    {reply.sender}
+                  </figcaption>
+                  <blockquote className="text-sm font-medium leading-relaxed text-zinc-100">
+                    {reply.message}
+                  </blockquote>
+                </figure>
+              </motion.div>
+            )}
+
+            {typingFollowUpMessageIndex !== null &&
+              followUpMessages[typingFollowUpMessageIndex] && (
+                <TypingIndicator
+                  item={followUpMessages[typingFollowUpMessageIndex]}
+                />
+              )}
+
+            {followUpMessages
+              .slice(0, visibleFollowUpMessageCount)
+              .map((item) => (
+                <ChatBubble
+                  key={`${item.sender}-${item.message}`}
+                  item={item}
+                  delay={0}
+                />
+              ))}
+          </div>
         </div>
 
         <div className="border-t border-zinc-800 bg-zinc-900 p-3">

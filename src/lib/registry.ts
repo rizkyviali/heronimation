@@ -189,7 +189,7 @@ export const heroVariants: HeroVariant[] = [
         name: "Paths",
         logoSrc: "/heronimation/aot/paths-sigil.png",
         logoAlt: "Paths sigil",
-        contextLabel: "Coordinate Chat",
+        contextLabel: "Ymir Group Chat",
       },
       messages: [
         {
@@ -213,17 +213,17 @@ export const heroVariants: HeroVariant[] = [
       ],
       reply: {
         sender: "Eren",
-        message: "Wait. What were we doing again?",
+        message: "Wait, what were we doing again?",
         avatarSrc: "/heronimation/aot/eren.webp",
         avatarAlt: "Eren profile",
       },
-      draftText: "I will sterilize every Eldian.",
-      placeholderText: "Write from the Coordinate",
+      draftText: "I'll flatten 80% of the entire planet. Welcome to my world!",
+      placeholderText: "Write your message...",
       followUpMessages: [
         {
           sender: "Zeke",
           message:
-            "You forgot? Eren, we rehearsed this for years. This was the whole plan.",
+            "You forgot??? Eren, we rehearsed this for years. This was the whole plan.",
           align: "left",
           avatarInitials: "Z",
           avatarSrc: "/heronimation/aot/zeke.webp",
