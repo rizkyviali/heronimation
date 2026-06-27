@@ -68,7 +68,123 @@ export const heroVariants: HeroVariant[] = [
           "Charset used during scramble — symbols (!<>_=*^#@&|;~) or letters (A–Z, 0–9)",
       },
     ],
-    defaultProps: {},
+    defaultProps: {
+      children: "TATAKAE",
+      href: "#",
+      className:
+        "bg-zinc-950 px-6 py-3 text-sm font-bold uppercase tracking-widest text-zinc-100 shadow-lg shadow-black/30 transition-colors hover:text-cyan-300",
+      scrambleDuration: 700,
+      variant: "letters",
+    },
+  },
+  {
+    type: "component",
+    slug: "project-chat-scene",
+    name: "Project Chat Scene",
+    description:
+      "Animated project brief chat with typing indicators, a draft rewrite, and a sent reply sequence. Adapted from the Loka Crafta and Belanesia case studies.",
+    tags: ["chat", "typing", "brief", "case-study", "framer-motion"],
+    componentFile: "ProjectChatScene.tsx",
+    props: [
+      {
+        name: "ariaLabel",
+        type: "string",
+        required: true,
+        description: "Accessible label for the chat section",
+      },
+      {
+        name: "brand",
+        type: "{ name: string; logoSrc: string; logoAlt: string; contextLabel: string }",
+        required: true,
+        description: "Chat header brand and context metadata",
+      },
+      {
+        name: "messages",
+        type: "ChatMessage[]",
+        required: true,
+        description: "Initial messages shown before the reply is typed",
+      },
+      {
+        name: "reply",
+        type: "{ sender: string; message: string; avatarSrc: string; avatarAlt: string }",
+        required: true,
+        description: "Reply message typed and sent by the right-side user",
+      },
+      {
+        name: "placeholderText",
+        type: "string",
+        required: true,
+        description: "Composer placeholder text",
+      },
+      {
+        name: "draftText",
+        type: "string",
+        required: false,
+        description:
+          "Optional draft that types, pauses, deletes, then rewrites",
+      },
+      {
+        name: "followUpMessages",
+        type: "ChatMessage[]",
+        required: false,
+        default: "[]",
+        description: "Messages revealed after the reply is sent",
+      },
+      {
+        name: "className",
+        type: "string",
+        required: false,
+        description: "Additional Tailwind classes for the outer section",
+      },
+    ],
+    defaultProps: {
+      ariaLabel: "Animated Paths chat brief",
+      brand: {
+        name: "Paths",
+        logoSrc: "/heronimation/aot/paths-sigil.png",
+        logoAlt: "Paths sigil",
+        contextLabel: "Coordinate Chat",
+      },
+      messages: [
+        {
+          sender: "Zeke",
+          message:
+            "Eren, the plan is simple. We meet in the Paths, touch hands, and end the cycle for every Subject of Ymir.",
+          align: "left",
+          avatarInitials: "Z",
+          avatarSrc: "/heronimation/aot/zeke.webp",
+          avatarAlt: "Zeke profile",
+        },
+        {
+          sender: "Yelena",
+          message:
+            "Please stay focused. No speeches, no sudden freedom monologues, no dramatic eye contact with your father.",
+          align: "left",
+          avatarInitials: "Y",
+          avatarSrc: "/heronimation/aot/yelena.webp",
+          avatarAlt: "Yelena profile",
+        },
+      ],
+      reply: {
+        sender: "Eren",
+        message: "Wait. What were we doing again?",
+        avatarSrc: "/heronimation/aot/eren.webp",
+        avatarAlt: "Eren profile",
+      },
+      draftText: "I will sterilize every Eldian.",
+      placeholderText: "Write from the Coordinate",
+      followUpMessages: [
+        {
+          sender: "Zeke",
+          message:
+            "You forgot? Eren, we rehearsed this for years. This was the whole plan.",
+          align: "left",
+          avatarInitials: "Z",
+          avatarSrc: "/heronimation/aot/zeke.webp",
+          avatarAlt: "Zeke profile",
+        },
+      ],
+    },
   },
   {
     slug: "centered",
