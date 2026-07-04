@@ -233,6 +233,173 @@ export const heroVariants: HeroVariant[] = [
     },
   },
   {
+    type: "component",
+    slug: "client-logo-marquee",
+    name: "Client Logo Marquee",
+    description:
+      "Two-row logo marquee with opposite-direction scrolling, hover pause, grayscale reveal, and optional detail tooltips.",
+    tags: ["logos", "marquee", "clients", "tooltip", "social-proof"],
+    componentFile: "ClientLogoMarquee.tsx",
+    requirements: [
+      {
+        label: "React 19+",
+        description:
+          "Uses client-side state for shuffled rows and hover/focus tooltips.",
+      },
+      {
+        label: "Tailwind CSS v4",
+        description: "Styling is expressed with Tailwind utility classes.",
+      },
+      ASSET_REQUIREMENT,
+    ],
+    props: [
+      {
+        name: "eyebrow",
+        type: "string",
+        required: false,
+        description: "Small label above the section title",
+      },
+      {
+        name: "title",
+        type: "string",
+        required: false,
+        description: "Section heading above the marquee",
+      },
+      {
+        name: "description",
+        type: "string",
+        required: false,
+        description: "Short supporting copy below the title",
+      },
+      {
+        name: "logos",
+        type: "ClientLogo[]",
+        required: true,
+        description:
+          "Logo data: { name, src, alt, branches?, darkBackground? }",
+      },
+      {
+        name: "repetitions",
+        type: "number",
+        required: false,
+        default: "5",
+        description: "How many times each row repeats the logo list",
+      },
+      {
+        name: "speed",
+        type: "{ left?: number; right?: number }",
+        required: false,
+        default: "{ left: 120, right: 110 }",
+        description: "Animation duration in seconds for each row",
+      },
+      {
+        name: "className",
+        type: "string",
+        required: false,
+        description: "Additional Tailwind classes for the outer section",
+      },
+    ],
+    defaultProps: {
+      eyebrow: "Survey Corps archive",
+      title: "Signals From Beyond the Walls",
+      description:
+        "A running logo strip for Attack on Titan references: factions, relics, places, and questionable plans moving in formation.",
+      logos: [
+        {
+          name: "Survey Corps",
+          src: "/heronimation/aot/scout-gear.png",
+          alt: "Survey Corps gear mark",
+          branches: [
+            "Long-range scouting formation",
+            "ODM gear maintenance",
+            "Expedition route planning",
+            "Basement recovery operation",
+          ],
+        },
+        {
+          name: "Paths",
+          src: "/heronimation/aot/paths-sigil.png",
+          alt: "Paths sigil",
+          branches: [
+            "Coordinate contact",
+            "Founding Titan access",
+            "Memory inheritance",
+          ],
+        },
+        {
+          name: "Wall Maria",
+          src: "/heronimation/aot/stone-wall.png",
+          alt: "Stone wall emblem",
+          branches: ["Shiganshina District", "Return to Wall Maria"],
+        },
+        {
+          name: "Basement Key",
+          src: "/heronimation/aot/basement-key.png",
+          alt: "Basement key",
+          branches: [
+            "Grisha's notes",
+            "Hidden history",
+            "The photograph reveal",
+          ],
+        },
+        {
+          name: "World Map",
+          src: "/heronimation/aot/world-map.png",
+          alt: "World map",
+          branches: ["Marley", "Paradis Island", "The outside world"],
+        },
+        {
+          name: "Ocean",
+          src: "/heronimation/aot/ocean-horizon.png",
+          alt: "Ocean horizon",
+          branches: ["First sight of the sea", "Freedom question"],
+        },
+        {
+          name: "Ancient Tree",
+          src: "/heronimation/aot/ancient-tree.png",
+          alt: "Ancient tree",
+          branches: [
+            "The origin tree",
+            "Ymir's first contact",
+            "Cycle of Titans",
+          ],
+        },
+        {
+          name: "Archive Photo",
+          src: "/heronimation/aot/archive-photo.png",
+          alt: "Archive photograph",
+          branches: ["Grisha", "Dina", "Zeke"],
+        },
+        {
+          name: "Rumbling",
+          src: "/heronimation/aot/rumbling-field.png",
+          alt: "Rumbling field",
+          branches: ["Wall Titans", "Global march", "The final plan"],
+        },
+        {
+          name: "Eren Yeager",
+          src: "/heronimation/aot/eren.webp",
+          alt: "Eren Yeager portrait",
+          branches: ["Attack Titan", "Founding Titan", "Freedom"],
+        },
+        {
+          name: "Zeke Yeager",
+          src: "/heronimation/aot/zeke.webp",
+          alt: "Zeke Yeager portrait",
+          branches: ["Beast Titan", "Royal blood", "Euthanasia plan"],
+        },
+        {
+          name: "Hange Zoe",
+          src: "/heronimation/aot/hange.webp",
+          alt: "Hange Zoe portrait",
+          branches: ["Titan research", "Scout command", "Irregular genius"],
+        },
+      ],
+      repetitions: 8,
+      speed: { left: 48, right: 44 },
+    },
+  },
+  {
     slug: "centered",
     name: "Centered Hero",
     description:
