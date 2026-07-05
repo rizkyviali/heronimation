@@ -124,6 +124,99 @@ export const heroVariants: HeroVariant[] = [
   },
   {
     type: "component",
+    slug: "seamless-marquee",
+    name: "Seamless Marquee",
+    description:
+      "Reusable infinite marquee primitive for logos, cards, chips, or any JSX content. Duplicates one identical group and animates by half the track for a seamless reset.",
+    tags: ["marquee", "loop", "primitive", "animation", "utility"],
+    componentFile: "SeamlessMarquee.tsx",
+    requirements: [
+      {
+        label: "React 19+",
+        description:
+          "Uses a generic render function and stable generated animation names.",
+      },
+      {
+        label: "Tailwind CSS v4",
+        description: "Only needed for the included demo classes.",
+      },
+    ],
+    props: [
+      {
+        name: "items",
+        type: "T[]",
+        required: true,
+        description: "Data items rendered into the marquee group",
+      },
+      {
+        name: "renderItem",
+        type: "(item: T, index: number) => React.ReactNode",
+        required: true,
+        description: "Render function for each item",
+      },
+      {
+        name: "getKey",
+        type: "(item: T, index: number) => string | number",
+        required: false,
+        description: "Optional stable key getter",
+      },
+      {
+        name: "direction",
+        type: '"left" | "right"',
+        required: false,
+        default: '"left"',
+        description: "Scroll direction",
+      },
+      {
+        name: "duration",
+        type: "number",
+        required: false,
+        default: "40",
+        description: "Seconds per full loop",
+      },
+      {
+        name: "gap",
+        type: "string",
+        required: false,
+        default: '"2rem"',
+        description: "CSS gap between rendered items",
+      },
+      {
+        name: "pauseOnHover",
+        type: "boolean",
+        required: false,
+        default: "true",
+        description: "Pause animation when hovered on pointer devices",
+      },
+      {
+        name: "ariaLabel",
+        type: "string",
+        required: false,
+        description: "Accessible label for the marquee region",
+      },
+      {
+        name: "className",
+        type: "string",
+        required: false,
+        description: "Classes for the outer clipping container",
+      },
+      {
+        name: "trackClassName",
+        type: "string",
+        required: false,
+        description: "Classes for the animated track",
+      },
+      {
+        name: "groupClassName",
+        type: "string",
+        required: false,
+        description: "Classes applied to each duplicated item group",
+      },
+    ],
+    defaultProps: {},
+  },
+  {
+    type: "component",
     slug: "project-chat-scene",
     name: "Project Chat Scene",
     description:
@@ -249,6 +342,11 @@ export const heroVariants: HeroVariant[] = [
       {
         label: "Tailwind CSS v4",
         description: "Styling is expressed with Tailwind utility classes.",
+      },
+      {
+        label: "SeamlessMarquee primitive",
+        description:
+          "Copy SeamlessMarquee.tsx with this file, or replace the import with your own marquee primitive.",
       },
       ASSET_REQUIREMENT,
     ],

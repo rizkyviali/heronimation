@@ -21,6 +21,7 @@ A source-only component library of hero sections I've actually shipped. Heronima
 | `image-trail` | Interactive visual hero where images follow the cursor path |
 | `article` | Magazine-style article header with full-bleed imagery and metadata |
 | `hacker-button` | Text button that scrambles on hover without Framer Motion |
+| `seamless-marquee` | Reusable infinite marquee primitive for logos, cards, chips, or any JSX content |
 | `client-logo-marquee` | Two-row logo marquee with hover pause and optional detail tooltips |
 
 ## Requirements

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import SeamlessMarquee from "./SeamlessMarquee";
 
 export interface ClientLogo {
   name: string;
@@ -30,15 +31,9 @@ interface TooltipPosition {
 
 const logoRepetitions = 5;
 const logoPositionOffset = 15;
-const animationSpeeds = {
-  desktop: {
-    left: 120,
-    right: 110,
-  },
-  mobile: {
-    left: 140,
-    right: 130,
-  },
+const animationDurations = {
+  left: 120,
+  right: 110,
 } as const;
 
 function shuffleArray<T>(array: T[]): T[] {
@@ -47,62 +42,6 @@ function shuffleArray<T>(array: T[]): T[] {
 
 function createRepeatedLogos(logos: ClientLogo[], repetitions: number) {
   return Array.from({ length: repetitions }, () => logos).flat();
-}
-
-function MarqueeStyles({
-  leftSpeed,
-  rightSpeed,
-}: {
-  leftSpeed: number;
-  rightSpeed: number;
-}) {
-  return (
-    <style>{`
-      .scrollbar-hide {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
-
-      .scrollbar-hide::-webkit-scrollbar {
-        display: none;
-      }
-
-      @media (min-width: 768px) {
-        .animate-scroll-left {
-          animation: scroll-left ${leftSpeed}s linear infinite;
-        }
-
-        .animate-scroll-right {
-          animation: scroll-right ${rightSpeed}s linear infinite;
-        }
-
-        .animate-scroll-left:hover,
-        .animate-scroll-right:hover {
-          animation-play-state: paused;
-        }
-      }
-
-      @media (max-width: 767px) {
-        .animate-scroll-left {
-          animation: scroll-left ${animationSpeeds.mobile.left}s linear infinite;
-        }
-
-        .animate-scroll-right {
-          animation: scroll-right ${animationSpeeds.mobile.right}s linear infinite;
-        }
-      }
-
-      @keyframes scroll-left {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-20%); }
-      }
-
-      @keyframes scroll-right {
-        0% { transform: translateX(-20%); }
-        100% { transform: translateX(0); }
-      }
-    `}</style>
-  );
 }
 
 function LogoButton({
@@ -178,51 +117,6 @@ function LogoButton({
   );
 }
 
-function LogoRow({
-  logos,
-  direction,
-  rowId,
-  activeId,
-  onActivate,
-  onDeactivate,
-}: {
-  logos: ClientLogo[];
-  direction: "left" | "right";
-  rowId: string;
-  activeId: string | null;
-  onActivate: (
-    itemId: string,
-    event:
-      | React.MouseEvent<HTMLButtonElement>
-      | React.KeyboardEvent<HTMLButtonElement>
-      | React.TouchEvent<HTMLButtonElement>,
-  ) => void;
-  onDeactivate: () => void;
-}) {
-  return (
-    <div
-      className={`flex py-4 ${
-        direction === "left" ? "animate-scroll-left" : "animate-scroll-right"
-      }`}
-    >
-      {logos.map((logo, index) => {
-        const itemId = `${rowId}::${index}::${logo.name}`;
-
-        return (
-          <LogoButton
-            key={itemId}
-            logo={logo}
-            itemId={itemId}
-            isActive={activeId === itemId}
-            onActivate={onActivate}
-            onDeactivate={onDeactivate}
-          />
-        );
-      })}
-    </div>
-  );
-}
-
 function LogoTooltip({
   logo,
   position,
@@ -294,7 +188,7 @@ export default function ClientLogoMarquee({
   description,
   logos,
   repetitions = logoRepetitions,
-  speed = animationSpeeds.desktop,
+  speed = animationDurations,
   className = "",
 }: ClientLogoMarqueeProps) {
   const [isClient, setIsClient] = useState(false);
@@ -378,27 +272,52 @@ export default function ClientLogoMarquee({
         </div>
       )}
 
-      <div className="scrollbar-hide relative overflow-x-auto overflow-y-hidden">
-        <div
-          className="flex flex-col"
-          style={{ width: "max-content" }}
-          aria-label="Client logo marquee"
-        >
-          <LogoRow
-            logos={rows.first}
-            rowId="row-1"
-            direction="left"
-            activeId={activeId}
-            onActivate={handleActivate}
-            onDeactivate={handleDeactivate}
+      <div className="relative overflow-hidden">
+        <div className="flex flex-col" aria-label="Client logo marquee">
+          <SeamlessMarquee
+            items={rows.first}
+            getKey={(logo, index) => `${logo.name}-${index}`}
+            duration={speed.left ?? 120}
+            gap="0"
+            pauseOnHover={false}
+            ariaLabel="Client logo row moving left"
+            groupClassName="py-4"
+            renderItem={(logo, index) => {
+              const itemId = `row-1::${index}::${logo.name}`;
+
+              return (
+                <LogoButton
+                  logo={logo}
+                  itemId={itemId}
+                  isActive={activeId === itemId}
+                  onActivate={handleActivate}
+                  onDeactivate={handleDeactivate}
+                />
+              );
+            }}
           />
-          <LogoRow
-            logos={rows.second}
-            rowId="row-2"
+          <SeamlessMarquee
+            items={rows.second}
+            getKey={(logo, index) => `${logo.name}-${index}`}
             direction="right"
-            activeId={activeId}
-            onActivate={handleActivate}
-            onDeactivate={handleDeactivate}
+            duration={speed.right ?? 110}
+            gap="0"
+            pauseOnHover={false}
+            ariaLabel="Client logo row moving right"
+            groupClassName="py-4"
+            renderItem={(logo, index) => {
+              const itemId = `row-2::${index}::${logo.name}`;
+
+              return (
+                <LogoButton
+                  logo={logo}
+                  itemId={itemId}
+                  isActive={activeId === itemId}
+                  onActivate={handleActivate}
+                  onDeactivate={handleDeactivate}
+                />
+              );
+            }}
           />
         </div>
       </div>
@@ -408,11 +327,6 @@ export default function ClientLogoMarquee({
         position={tooltipPosition}
         onMouseEnter={clearCloseTimeout}
         onMouseLeave={() => setActiveId(null)}
-      />
-
-      <MarqueeStyles
-        leftSpeed={speed.left ?? 120}
-        rightSpeed={speed.right ?? 110}
       />
     </section>
   );
