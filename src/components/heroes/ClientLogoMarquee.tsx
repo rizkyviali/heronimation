@@ -108,12 +108,66 @@ function LogoButton({
         alt={logo.alt}
         width={144}
         height={96}
+        draggable={false}
         loading="lazy"
         className={`max-h-full max-w-full object-contain transition-all duration-300 ${
           isActive ? "grayscale-0" : "grayscale hover:grayscale-0"
         } ${isRasterWithHardEdge ? "rounded-lg" : ""}`}
+        onDragStart={(event) => event.preventDefault()}
       />
     </button>
+  );
+}
+
+function DraggableMarqueeRow({ children }: { children: React.ReactNode }) {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const dragStateRef = useRef({
+    isDragging: false,
+    startX: 0,
+    scrollLeft: 0,
+  });
+
+  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    dragStateRef.current = {
+      isDragging: true,
+      startX: event.clientX,
+      scrollLeft: container.scrollLeft,
+    };
+    container.setPointerCapture(event.pointerId);
+  };
+
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    const container = scrollContainerRef.current;
+    const dragState = dragStateRef.current;
+    if (!container || !dragState.isDragging) return;
+
+    const deltaX = event.clientX - dragState.startX;
+    container.scrollLeft = dragState.scrollLeft - deltaX;
+  };
+
+  const handlePointerEnd = (event: React.PointerEvent<HTMLDivElement>) => {
+    const container = scrollContainerRef.current;
+    dragStateRef.current.isDragging = false;
+    if (container?.hasPointerCapture(event.pointerId)) {
+      container.releasePointerCapture(event.pointerId);
+    }
+  };
+
+  return (
+    <div
+      ref={scrollContainerRef}
+      className="relative cursor-grab overflow-x-auto overflow-y-hidden active:cursor-grabbing [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      onPointerCancel={handlePointerEnd}
+      onPointerDown={handlePointerDown}
+      onPointerLeave={handlePointerEnd}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerEnd}
+    >
+      {children}
+    </div>
   );
 }
 
@@ -272,8 +326,8 @@ export default function ClientLogoMarquee({
         </div>
       )}
 
-      <div className="relative overflow-hidden">
-        <div className="flex flex-col" aria-label="Client logo marquee">
+      <div className="flex flex-col" aria-label="Client logo marquee">
+        <DraggableMarqueeRow>
           <SeamlessMarquee
             items={rows.first}
             getKey={(logo, index) => `${logo.name}-${index}`}
@@ -281,6 +335,7 @@ export default function ClientLogoMarquee({
             gap="0"
             pauseOnHover={false}
             ariaLabel="Client logo row moving left"
+            className="w-max overflow-visible"
             groupClassName="py-4"
             renderItem={(logo, index) => {
               const itemId = `row-1::${index}::${logo.name}`;
@@ -296,6 +351,8 @@ export default function ClientLogoMarquee({
               );
             }}
           />
+        </DraggableMarqueeRow>
+        <DraggableMarqueeRow>
           <SeamlessMarquee
             items={rows.second}
             getKey={(logo, index) => `${logo.name}-${index}`}
@@ -304,6 +361,7 @@ export default function ClientLogoMarquee({
             gap="0"
             pauseOnHover={false}
             ariaLabel="Client logo row moving right"
+            className="w-max overflow-visible"
             groupClassName="py-4"
             renderItem={(logo, index) => {
               const itemId = `row-2::${index}::${logo.name}`;
@@ -319,7 +377,7 @@ export default function ClientLogoMarquee({
               );
             }}
           />
-        </div>
+        </DraggableMarqueeRow>
       </div>
 
       <LogoTooltip

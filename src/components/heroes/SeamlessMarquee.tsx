@@ -61,13 +61,14 @@ export default function SeamlessMarquee<T>({
       role={ariaLabel ? "region" : undefined}
     >
       <div
-        className={`flex w-max ${marqueeClassName} ${marqueeClassName}-motion ${
+        className={`flex w-max ${marqueeClassName} ${
           pauseOnHover ? `${marqueeClassName}-pause` : ""
         } ${trackClassName}`}
         style={
           {
-            "--seamless-marquee-duration": `${duration}s`,
-            animation: `${animationName} var(--seamless-marquee-duration) linear infinite`,
+            animation: `${animationName} ${duration}s linear infinite`,
+            transform: "translate3d(0, 0, 0)",
+            willChange: "transform",
           } as React.CSSProperties
         }
       >
@@ -98,12 +99,6 @@ export default function SeamlessMarquee<T>({
             : ""
         }
 
-        @media (prefers-reduced-motion: reduce) {
-          .${marqueeClassName}-motion {
-            animation: none !important;
-            transform: translateX(0) !important;
-          }
-        }
       `}</style>
     </div>
   );
@@ -144,7 +139,7 @@ export function SeamlessMarqueeDemo() {
         <SeamlessMarquee
           items={[...signals, ...signals]}
           getKey={(item, index) => `${item}-${index}`}
-          duration={16}
+          duration={56}
           gap="1rem"
           pauseOnHover={false}
           ariaLabel="Example marquee moving left"
@@ -158,7 +153,7 @@ export function SeamlessMarqueeDemo() {
           items={[...signals].reverse().concat(signals)}
           getKey={(item, index) => `${item}-${index}`}
           direction="right"
-          duration={18}
+          duration={64}
           gap="1rem"
           pauseOnHover={false}
           ariaLabel="Example marquee moving right"

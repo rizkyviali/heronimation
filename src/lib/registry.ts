@@ -494,7 +494,7 @@ export const heroVariants: HeroVariant[] = [
         },
       ],
       repetitions: 8,
-      speed: { left: 48, right: 44 },
+      speed: { left: 150, right: 138 },
     },
   },
   {
